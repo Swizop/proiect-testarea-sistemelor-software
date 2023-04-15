@@ -19,7 +19,7 @@ class Student:
         return age >= threshold
     
     def get_platform_username(self):
-        if self.email.endswith('yahoo.com'):
+        if self.email.endswith('yahoo.com') and self.age > 15:
             names = self.name.split(" ")
             if len(names) > 2:
                 return f"{names[0][0]}{names[1][0]}{names[2][0]}"
