@@ -21,10 +21,10 @@ class Student:
     def get_platform_username(self):
         if self.email.endswith('yahoo.com'):
             names = self.name.split(" ")
-            if names.count > 2:
+            if len(names) > 2:
                 return f"{names[0][0]}{names[1][0]}{names[2][0]}"
             elif self.age > 18:
-                return names.joined("")
+                return "".join(names)
             else:
                 return f"{names[0][0]}{names[1][0]}"
         else:
