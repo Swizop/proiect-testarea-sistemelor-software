@@ -1,3 +1,5 @@
+import re
+
 class Student:
     def __init__(self, name, email, age):
         self.name = name
@@ -16,6 +18,18 @@ class Student:
     def is_adult(self, age, threshold):
         return age >= threshold
     
+    def get_platform_username(self):
+        if self.email.endswith('yahoo.com'):
+            names = self.name.split(" ")
+            if names.count > 2:
+                return f"{names[0][0]}{names[1][0]}{names[2][0]}"
+            elif self.age > 18:
+                return names.joined("")
+            else:
+                return f"{names[0][0]}{names[1][0]}"
+        else:
+            return self.email
+
     def calculate_final_grade(self, score1, score2, score3):
         scores = [score1, score2, score3]
         lowest_score = scores[0]
