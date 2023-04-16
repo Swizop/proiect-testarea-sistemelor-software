@@ -53,18 +53,23 @@ class StructuralTests:
         assert yahooStudentWithThreeNames.get_platform_username() == "JDC"
 
     def test_modified_condition_decision(self):
+        # Decisions: FALSE, FALSE, TRUE. Conditions: FALSE, TRUE, FALSE, TRUE
         studentWithGmailOver15 = Student(name="John Doe", email="johndoe@gmail.com", age=20)
         assert studentWithGmailOver15.get_platform_username() == "johndoe@gmail.com"
 
+        # Decisions: FALSE, FALSE, FALSE. Conditions: FALSE, FALSE, FALSE, FALSE
         studentWithYahooUnder15 = Student(name="John Doe", email="johndoe@gmail.com", age=14)
         assert studentWithYahooUnder15.get_platform_username() == "johndoe@gmail.com"
 
+        # Decisions: TRUE, TRUE, TRUE. Conditions: TRUE, TRUE, TRUE, TRUE
         yahooStudentWithThreeNames = Student(name="John Doe Connor", email="johndoe@yahoo.com", age=20)
         assert yahooStudentWithThreeNames.get_platform_username() == "JDC"
 
+        # Decisions: TRUE, FALSE, TRUE. Conditions: TRUE, TRUE, FALSE, TRUE
         yahooAdultStudentWithTwoNames = Student(name="John Connor", email="johnconnor@yahoo.com", age=21)
         assert yahooAdultStudentWithTwoNames.get_platform_username() == "JohnConnor"
 
+        # Decisions: TRUE, FALSE, FALSE. Conditions: TRUE, TRUE, FALSE, FALSE
         yahooTeenStudentWithTwoNames = Student(name="Mark Tyler", email="marktyler@yahoo.com", age=17)
         assert yahooTeenStudentWithTwoNames.get_platform_username() == "MT"
 
