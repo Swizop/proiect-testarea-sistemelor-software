@@ -5,6 +5,32 @@ class Student:
         self.name = name
         self.email = email
         self.age = age
+        self.grade = {}
+
+    def insert_grade(self, new_grade, subject, semester, replace):
+        if new_grade < 0 or new_grade > 100:
+            raise ValueError("Invalid grade! Grade cannot be negative and cannot exceed 100.")
+        if len(subject) == 0:
+            raise ValueError("Invalid subject! Subject cannot be empty.")
+        if semester < 0 or semester > 2:
+            raise ValueError("Invalid semester! Semester cannot be negative and cannot exceed 2")
+        if semester not in self.grade:
+            self.grade[semester] = {}
+        if subject not in self.grade[semester] or replace:
+            self.grade[semester][subject] = new_grade
+        else:
+            raise AttributeError(f"Grade for semester: '{semester}' and subject '{subject}' already exists.")
+
+    def get_grade(self, subject, semester, format):
+        if semester not in self.grade:
+            raise ValueError("Semester not in grades")
+        if subject not in self.grade[semester]:
+            raise ValueError("Subject not in grades")
+        if not format:
+            return self.grade[semester][subject]
+        else:
+            return f"Student {self.name} has the grade: {self.grade[semester][subject]} for the subject: {subject} and" \
+                   f"semester: {semester}"
     
     def calculate_grade(self, score1, score2, score3):
         average = (score1 + score2 + score3) / 3
