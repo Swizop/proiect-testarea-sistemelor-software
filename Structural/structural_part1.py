@@ -1,4 +1,11 @@
+import pathlib
+import sys
+
+directory = str(pathlib.Path(_file_).parent.parent.resolve())
+sys.path.append(directory)
+
 from Student import Student
+
 
 class TestStudent:
 
@@ -16,12 +23,14 @@ class TestStudent:
 
     def test_get_email_domain_statement_coverage(self):
         student = Student("John Doe", "johndoe@example.com", 20)
-        assert student.get_email_domain("johndoe@example.com", "@", 1) == "example.com"
+        assert student.get_email_domain("johndoe@example.com", "@",
+                                        1) == "example.com"
 
     # this covers condition and decision covarage
     def test_get_email_domain_decision_condition_coverage(self):
         student = Student("John Doe", "johndoe@example.com", 20)
-        assert student.get_email_domain("johndoe@example.com", "@", 1) == "example.com"
+        assert student.get_email_domain("johndoe@example.com", "@",
+                                        1) == "example.com"
 
     def test_is_adult_statement_coverage(self):
         student = Student("John Doe", "johndoe@example.com", 20)
@@ -53,5 +62,3 @@ class TestStudent:
         assert student.get_highest_score(70, 75, 65) == 75
         assert student.get_highest_score(85, 80, 90) == 90
         assert student.get_highest_score(80, 85, 80) == 85
-
-
