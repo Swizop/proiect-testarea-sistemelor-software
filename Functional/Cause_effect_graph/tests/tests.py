@@ -30,6 +30,10 @@ class TestCauseEffectGraphMethod1(unittest.TestCase):
         self.student.insert_grade(60, "math", 1, False)
         self.assertEqual(self.student.grade[1]["math"], 60)
 
+    def test4_case2(self):
+        self.student.insert_grade(0, "math", 1, False)
+        self.assertEqual(self.student.grade[1]["math"], 0)
+
     def test5_case1(self):
         self.student.insert_grade(73, "english", 1, True)
         self.assertEqual(self.student.grade[1]["english"], 73)
