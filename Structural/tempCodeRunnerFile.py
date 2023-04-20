@@ -1,0 +1,1 @@
+student.calculate_grade(80, 90, 85)
