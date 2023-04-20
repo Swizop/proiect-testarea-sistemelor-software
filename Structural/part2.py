@@ -11,8 +11,6 @@ from Student import Student
 class StructuralTests(unittest.TestCase):
 
     def test_multiple_condition_coverage(self):
-        # CONDITIONS: email is yahoo; age over 15; has more than 2 names; age over 18
-
         # FALSE, FALSE, FALSE, FALSE
         studentWithGmailUnder15 = Student(name="John Doe",
                                           email="johndoe@gmail.com",
