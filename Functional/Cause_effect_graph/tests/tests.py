@@ -18,7 +18,7 @@ class TestCauseEffectGraphMethod1(unittest.TestCase):
 
     def test2_case1(self):
         with self.assertRaisesRegex(ValueError,
-                                    "^Invalid semester! Semester cannot be negative and cannot exceed 2$"):
+                                    "^Invalid semester! Semester cannot be negative or null and cannot exceed 2$"):
             self.student.insert_grade(50, "math", 3, False)
 
     def test3_case1(self):
@@ -78,4 +78,4 @@ class TestCauseEffectGraphMethod2(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    unittest.main()

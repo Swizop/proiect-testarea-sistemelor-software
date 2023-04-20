@@ -18,7 +18,7 @@ class TestCauseEffectGraphMethod1(unittest.TestCase):
 
     def test2_case1(self):
         with self.assertRaisesRegex(ValueError,
-                                    "^Invalid semester! Semester cannot be negative and cannot exceed 2$"):
+                                    "^Invalid semester! Semester cannot be negative or null and cannot exceed 2$"):
             self.student.insert_grade(50, "math", 3, False)
 
     def test3_case1(self):
@@ -336,6 +336,148 @@ class TestStudentStructuralPart1(unittest.TestCase):
         self.assertEqual(student.get_highest_score(70, 75, 65), 75)
         self.assertEqual(student.get_highest_score(85, 80, 90), 90)
         self.assertEqual(student.get_highest_score(80, 85, 80), 85)
+
+
+class TestStudentStructuralPart2(unittest.TestCase):
+
+    def test_multiple_condition_coverage(self):
+        # CONDITIONS: email is yahoo; age over 15; has more than 2 names; age over 18
+
+        # FALSE, FALSE, FALSE, FALSE
+        studentWithGmailUnder15 = Student(name="John Doe",
+                                          email="johndoe@gmail.com",
+                                          age=14)
+        self.assertEqual(studentWithGmailUnder15.get_platform_username(), "johndoe@gmail.com")
+
+        # FALSE, FALSE, TRUE, FALSE
+        studentGmailUnder15ThreeNames = Student(name="John Doe Little",
+                                                email="johndoe@gmail.com",
+                                                age=14)
+        self.assertEqual(studentGmailUnder15ThreeNames.get_platform_username(), "johndoe@gmail.com")
+
+        # FALSE, TRUE, FALSE, FALSE
+        studentGmail16TwoNames = Student(name="John Doe",
+                                         email="johndoe@gmail.com",
+                                         age=16)
+        self.assertEqual(studentGmail16TwoNames.get_platform_username(), "johndoe@gmail.com")
+
+        # FALSE, TRUE, FALSE, TRUE
+        studentWithGmailOver15 = Student(name="John Doe",
+                                         email="johndoe@gmail.com",
+                                         age=20)
+        self.assertEqual(studentWithGmailOver15.get_platform_username(), "johndoe@gmail.com")
+
+        # FALSE, TRUE, TRUE, FALSE
+        studentGmail16ThreeNames = Student(name="John Doe Matei",
+                                           email="johndoe@gmail.com",
+                                           age=16)
+        self.assertEqual(studentGmail16ThreeNames.get_platform_username(), "johndoe@gmail.com")
+
+        # FALSE, TRUE, TRUE, TRUE
+        studentGmail20ThreeNames = Student(name="John Doe Matei",
+                                           email="johndoe@gmail.com",
+                                           age=20)
+        self.assertEqual(studentGmail20ThreeNames.get_platform_username(), "johndoe@gmail.com")
+
+        # TRUE, FALSE, FALSE, FALSE
+        studentWithYahooUnder15 = Student(name="John Doe",
+                                          email="johndoe@yahoo.com",
+                                          age=14)
+        self.assertEqual(studentWithYahooUnder15.get_platform_username(), "johndoe@yahoo.com")
+
+        # TRUE, FALSE, TRUE, FALSE
+        studentYahooThreeNamesUnder15 = Student(name="John Doe Matei",
+                                                email="johndoe@yahoo.com",
+                                                age=14)
+        self.assertEqual(studentYahooThreeNamesUnder15.get_platform_username(), "johndoe@yahoo.com")
+
+        # TRUE, TRUE, FALSE, FALSE
+        yahooTeenStudentWithTwoNames = Student(name="Mark Tyler",
+                                               email="marktyler@yahoo.com",
+                                               age=17)
+        self.assertEqual(yahooTeenStudentWithTwoNames.get_platform_username(), "MT")
+
+        # TRUE, TRUE, FALSE, TRUE
+        yahooAdultStudentWithTwoNames = Student(name="John Connor",
+                                                email="johnconnor@yahoo.com",
+                                                age=21)
+        self.assertEqual(yahooAdultStudentWithTwoNames.get_platform_username(), "JohnConnor")
+
+        # TRUE, TRUE, TRUE, FALSE
+        yahoo16StudentThreeNames = Student(name="John Connor MARK",
+                                           email="johnconnor@yahoo.com",
+                                           age=16)
+        self.assertEqual(yahoo16StudentThreeNames.get_platform_username(), "JCM")
+
+        # TRUE, TRUE, TRUE, TRUE
+        yahooStudentWithThreeNames = Student(name="John Doe Connor",
+                                             email="johndoe@yahoo.com",
+                                             age=20)
+        self.assertEqual(yahooStudentWithThreeNames.get_platform_username(), "JDC")
+
+    def test_modified_condition_decision(self):
+        # Decisions: FALSE, FALSE, TRUE. Conditions: FALSE, TRUE, FALSE, TRUE
+        studentWithGmailOver15 = Student(name="John Doe",
+                                         email="johndoe@gmail.com",
+                                         age=20)
+        self.assertEqual(studentWithGmailOver15.get_platform_username(), "johndoe@gmail.com")
+
+        # Decisions: FALSE, FALSE, FALSE. Conditions: FALSE, FALSE, FALSE, FALSE
+        studentWithYahooUnder15 = Student(name="John Doe",
+                                          email="johndoe@gmail.com",
+                                          age=14)
+        self.assertEqual(studentWithYahooUnder15.get_platform_username(), "johndoe@gmail.com")
+
+        # Decisions: TRUE, TRUE, TRUE. Conditions: TRUE, TRUE, TRUE, TRUE
+        yahooStudentWithThreeNames = Student(name="John Doe Connor",
+                                             email="johndoe@yahoo.com",
+                                             age=20)
+        self.assertEqual(yahooStudentWithThreeNames.get_platform_username(), "JDC")
+
+        # Decisions: TRUE, FALSE, TRUE. Conditions: TRUE, TRUE, FALSE, TRUE
+        yahooAdultStudentWithTwoNames = Student(name="John Connor",
+                                                email="johnconnor@yahoo.com",
+                                                age=21)
+        self.assertEqual(yahooAdultStudentWithTwoNames.get_platform_username(), "JohnConnor")
+
+        # Decisions: TRUE, FALSE, FALSE. Conditions: TRUE, TRUE, FALSE, FALSE
+        yahooTeenStudentWithTwoNames = Student(name="Mark Tyler",
+                                               email="marktyler@yahoo.com",
+                                               age=17)
+        self.assertEqual(yahooTeenStudentWithTwoNames.get_platform_username(), "MT")
+
+
+class TestKillMutants(unittest.TestCase):
+
+    def setUp(self):
+        self.student = Student("John Doe", "johndoe@gmail.com", 21)
+        self.student.grade[2] = {}
+        self.student.grade[2]["math"] = 75
+
+    def test_kill_mutant46(self):
+        student = Student("Jane Doe", "janedoe@yahoo.com", 0)
+        self.assertEqual(student.name, "Jane Doe")
+        self.assertEqual(student.email, "janedoe@yahoo.com")
+        self.assertEqual(student.age, 0)
+
+    def test_kill_mutant50(self):
+        self.student.insert_grade(100, "math", 1, False)
+        self.assertEqual(self.student.grade[1]["math"], 100)
+        self.student.insert_grade(0, "math", 1, True)
+        self.assertEqual(self.student.grade[1]["math"], 0)
+
+    def test_kill_mutant53(self):
+        self.student.insert_grade(75, "chemistry", 2, False)
+        self.assertEqual(self.student.grade[2]["chemistry"], 75)
+        with self.assertRaisesRegex(ValueError,
+                                    "^Invalid semester! Semester cannot be negative or null and cannot exceed 2$"):
+            self.student.insert_grade(70, "chemistry", 0, False)
+
+    def test_kill_mutant74(self):
+        student = Student("Jane Doe", "janedoe@yahoo.com", 15)
+        self.assertEqual(student.get_platform_username(), student.email)
+        student = Student("Jane Doe", "janedoe@gmail.com", 17)
+        self.assertEqual(student.get_platform_username(), student.email)
 
 
 if __name__ == '__main__':

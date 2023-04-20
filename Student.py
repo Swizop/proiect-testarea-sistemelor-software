@@ -45,9 +45,9 @@ class Student:
             )
         if len(subject) == 0:
             raise ValueError("Invalid subject! Subject cannot be empty.")
-        if semester < 0 or semester > 2:
+        if semester <= 0 or semester > 2:
             raise ValueError(
-                "Invalid semester! Semester cannot be negative and cannot exceed 2"
+                "Invalid semester! Semester cannot be negative or null and cannot exceed 2"
             )
         if semester not in self.grade:
             self.grade[semester] = {}
