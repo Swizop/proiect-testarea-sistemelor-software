@@ -1,1 +1,1 @@
-# proiect-testarea-sistemelor-software
+# Proiect Testarea Sistemelor Software
